@@ -1,0 +1,200 @@
+---
+title: "Client Report - BASEBALL DATA VISUALIZATION"
+subtitle: "Course DS 250"
+author: "David Pineda"
+format:
+  html:
+    self-contained: true
+    page-layout: full
+    title-block-banner: true
+    toc: true
+    toc-depth: 3
+    toc-location: body
+    number-sections: false
+    html-math-method: katex
+    code-fold: true
+    code-summary: "Show the code"
+    code-overflow: wrap
+    code-copy: hover
+    code-tools:
+        source: false
+        toggle: true
+        caption: See code
+
+---
+
+```{python}
+#| label: libraries
+#| include: false
+import pandas as pd
+import altair as alt
+import numpy as np
+import sqlite3
+
+from IPython.display import Markdown
+from IPython.display import display
+from tabulate import tabulate
+```
+
+
+## [Connecting to Data Frame]
+```{python}
+#| label: project data
+#| code-summary: Read and format project data
+# Include and execute your code here
+con = sqlite3.connect('lahmansbaseballdb.sqlite')
+```
+
+
+## [SQL Query for Baseball Players Dataframe: BYU-Idaho Attendees with Salaries and Team/Year Information]
+
+In this report, I gathered all the neccesary tables to show the players who attended BYU-Idaho, then ordering the their salary from highest to lowest. I did have the option to group the salaries for both players with the Group By command, but decided that a visual representation of the recent year to 2014 - 1997 is most imporant to visualize this data.
+
+```{python}
+#| label: GQ1
+#| code-summary: Read and format data
+# Include and execute your code here
+
+# From the Salaries table (s) and joins with the CollegePlaying table (c) based on playerID from both tables being equal. The join is made to bring in the schoolID from the CollegePlaying table and filter only those records where the schoolID equals "idbyuid". The final result is ordered in descending order by salary and limited to 5 records.
+
+pd.read_sql_query("""
+
+SELECT c.playerID, c.schoolID, s.salary, s.yearID, s.teamID
+FROM Salaries s
+    JOIN CollegePlaying c ON s.playerID = c.playerID
+WHERE c.schoolId = "idbyuid"
+ORDER BY s.salary DESC, s.yearID
+
+
+
+""", con)
+
+
+```
+
+
+
+## [SQL Query for Batting Average Calculation of Baseball Players: 1 At Bat, 10 At Bats, and Career Averages (Top 5 Results)]
+
+
+
+### [First Part]
+
+In this representation table, I have gathered the playerId, yearId, and calculated the batting average for the playerId. The batting average comes from dividing a player's hits to at-bat. Then I provided for the players that have at least a 1 at bat. I then filtered alphabetically those particular players, then gave back a result of 5.
+
+```{python}
+#| label: GQ2
+#| code-summary: Read and format data
+# Include and execute your code here
+
+
+# This is a SQL query that retrieves the playerID, yearID and batting average (H/AB) from the Batting table, where the number of at-bats (AB) is greater than or equal to 1. The results are ordered in descending order of batting average, and in ascending order of playerID, for ties. Finally, the query returns only the top 5 results.
+
+pd.read_sql_query("""
+
+SELECT s.playerID, s.yearID, (s.H/s.AB) as battingAvg
+FROM Batting s
+WHERE s.AB >= 1
+ORDER BY battingAvg DESC, s.playerID
+LIMIT 5
+
+""", con)
+
+
+```
+
+
+### [Second Part]
+
+In this report, players with 10 or greater at bats were displayed, and can visually see the batting average fro each of these players below 1.
+
+```{python}
+
+# This is a SQL query that retrieves the playerID, yearID and batting average (H/AB) from the Batting table. The numerator (H) and denominator (AB) are both cast as floats to ensure floating-point division is performed, rather than integer division. The results are filtered to only include players with 10 or more at-bats (AB >= 10). The results are ordered in descending order of batting average, and in ascending order of playerID, for ties. Finally, the query returns only the top 5 results.
+
+
+pd.read_sql_query("""
+
+SELECT s.playerID, s.yearID, CAST(s.H AS float) / CAST(s.AB AS float) as battingAvg
+FROM Batting s
+WHERE s.AB >= 10
+ORDER BY battingAvg DESC, s.playerID
+LIMIT 5
+
+""", con)
+
+```
+
+
+### [Third Part]
+
+
+In this visualization report, the information provided shows for players of all their years combined then filtering that their at bats are 100 or over. The report then provides the first 5 results of these players.
+
+
+```{python}
+
+# This is a SQL query that retrieves the playerID, yearID and batting average (H/AB) from the Batting table. The numerator (H) and denominator (AB) are both cast as floats to ensure floating-point division is performed, rather than integer division. The results are grouped by playerID and filtered to only include players with a total of 100 or more at-bats (sum(s.AB) >= 100). Finally, the query returns only the top 5 results.
+
+
+
+pd.read_sql_query("""
+
+SELECT s.playerID, s.yearID, CAST(s.H AS float) / CAST(s.AB AS float) as battingAvg
+FROM Batting s
+GROUP BY s.playerID
+HAVING sum( s.AB ) >= 100
+LIMIT 5
+
+""", con)
+
+```
+
+
+
+## [Comparing Baseball Teams using SQL and Altair: Salary, Home Runs, or Wins Comparison with Visualization and Analysis]
+
+
+Here I have ploted for two teams Atlanta and Minnesota, for their salary over the years with their winning avergage plotted as well. For seasons, that have high winning average their salaries are directly cooriltated. For seasons that their winning average are lower over a time period, their overall team salary will decrease.
+
+The first visualization, test1, is a line chart showing the salary over time for the teams 'ATL' and 'MIN' with the yearID on the x-axis and the salary on the y-axis. The teamID is used to color the lines.
+
+The second visualization, test2, is a scatterplot with circles as the markers. The x-axis shows the yearID, formatted with no decimal places, and the y-axis shows the salary. The color of the markers is based on the winAvg.
+
+
+
+```{python}
+#| label: GQ3
+#| code-summary: Read and format data
+# Include and execute your code here
+
+
+# Join the Team Table
+
+data = pd.read_sql_query("""
+
+SELECT s.teamID, s.salary, s.yearID, CAST(t.W AS float) / CAST(t.G AS float) as winAvg
+FROM Salaries s
+     JOIN Teams t ON s.teamID = t.teamID
+GROUP BY s.yearID, s.teamID
+HAVING s.teamID IN ('ATL','MIN')
+ORDER BY s.yearID, s.teamID, AVG( winAvg ), AVG( s.salary )
+
+""", con)
+
+test1 = alt.Chart(data).mark_line().encode(
+    x='yearID',
+    y='salary',
+    color = 'teamID'
+)
+
+test2 = alt.Chart(data).mark_circle(size = 50).encode(
+    x=alt.X('yearID', axis=alt.Axis(format=".0f")),
+    y=alt.Y('salary'),
+    color = alt.Color('winAvg')
+)
+
+test1 + test2
+
+
+```
