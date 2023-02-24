@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.313">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="David Pineda">
 
-<title>Client Report - BASEBALL DATA VISUALIZATION</title>
+<title>BASEBALL DATA VISUALIZATION</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -2610,7 +2610,7 @@ vertical-align: -.125em;
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-page">
-      <div class="quarto-title-block"><div><h1 class="title">Client Report - BASEBALL DATA VISUALIZATION</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> See code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+      <div class="quarto-title-block"><div><h1 class="title">BASEBALL DATA VISUALIZATION</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> See code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
             <p class="subtitle lead">Course DS 250</p>
                       </div>
   </div>
@@ -3100,7 +3100,7 @@ vertical-align: -.125em;
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pd.read_sql_query(<span class="st">&quot;&quot;&quot;</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT s.playerID, s.yearID, CAST(s.H AS float) / CAST(s.AB AS float) as battingAvg</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT s.playerID, s.yearID, CAST(sum( s.H ) AS float) / CAST(sum( s.AB ) AS float) as battingAvg</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">FROM Batting s</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY s.playerID</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">HAVING sum( s.AB ) &gt;= 100</span></span>
@@ -3126,31 +3126,31 @@ vertical-align: -.125em;
       <th>0</th>
       <td>aaronha01</td>
       <td>1954</td>
-      <td>0.279915</td>
+      <td>0.304998</td>
     </tr>
     <tr>
       <th>1</th>
       <td>aaronto01</td>
       <td>1962</td>
-      <td>0.230539</td>
+      <td>0.228814</td>
     </tr>
     <tr>
       <th>2</th>
       <td>abbated01</td>
       <td>1897</td>
-      <td>0.300000</td>
+      <td>0.253614</td>
     </tr>
     <tr>
       <th>3</th>
       <td>abbeybe01</td>
       <td>1892</td>
-      <td>0.120000</td>
+      <td>0.168889</td>
     </tr>
     <tr>
       <th>4</th>
       <td>abbeych01</td>
       <td>1893</td>
-      <td>0.258621</td>
+      <td>0.280752</td>
     </tr>
   </tbody>
 </table>
@@ -3197,21 +3197,15 @@ vertical-align: -.125em;
 <span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>test1 <span class="op">+</span> test2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>/Users/daviedev/.pyenv/versions/3.9.4/lib/python3.9/site-packages/altair/utils/core.py:317: FutureWarning:
-
-iteritems is deprecated and will be removed in a future version. Use .items instead.
-</code></pre>
-</div>
 <div id="gq3" class="cell-output cell-output-display" data-execution_count="7">
 
-<div id="altair-viz-da6797661b23460b92fbd9a26070f97b"></div>
+<div id="altair-viz-d8d4601e64654b7c96bfbdf7e205f33e"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-da6797661b23460b92fbd9a26070f97b") {
-      outputDiv = document.getElementById("altair-viz-da6797661b23460b92fbd9a26070f97b");
+    if (outputDiv.id !== "altair-viz-d8d4601e64654b7c96bfbdf7e205f33e") {
+      outputDiv = document.getElementById("altair-viz-d8d4601e64654b7c96bfbdf7e205f33e");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",

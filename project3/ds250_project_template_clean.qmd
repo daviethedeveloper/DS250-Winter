@@ -1,5 +1,5 @@
 ---
-title: "Client Report - BASEBALL DATA VISUALIZATION"
+title: "BASEBALL DATA VISUALIZATION"
 subtitle: "Course DS 250"
 author: "David Pineda"
 format:
@@ -140,7 +140,7 @@ In this visualization report, the information provided shows for players of all 
 
 pd.read_sql_query("""
 
-SELECT s.playerID, s.yearID, CAST(s.H AS float) / CAST(s.AB AS float) as battingAvg
+SELECT s.playerID, s.yearID, CAST(sum( s.H ) AS float) / CAST(sum( s.AB ) AS float) as battingAvg
 FROM Batting s
 GROUP BY s.playerID
 HAVING sum( s.AB ) >= 100

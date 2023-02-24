@@ -48,9 +48,9 @@ from sklearn import metrics
 ```{python}
 
 #  - Data being read and set to specific variables - 
-denver_dwelling = pd.read_csv("https://raw.githubusercontent.com/byuidatascience/data4dwellings/master/data-raw/dwellings_denver/dwellings_denver.csv")
+dwellings_denver = pd.read_csv("https://raw.githubusercontent.com/byuidatascience/data4dwellings/master/data-raw/dwellings_denver/dwellings_denver.csv")
 
-denver_machine = pd.read_csv("https://raw.githubusercontent.com/byuidatascience/data4dwellings/master/data-raw/dwellings_ml/dwellings_ml.csv")
+dwellings_ml = pd.read_csv("https://raw.githubusercontent.com/byuidatascience/data4dwellings/master/data-raw/dwellings_ml/dwellings_ml.csv")
 
 denver_neighborhood = pd.read_csv("https://raw.githubusercontent.com/byuidatascience/data4dwellings/master/data-raw/dwellings_neighborhoods_ml/dwellings_neighborhoods_ml.csv")
 
@@ -71,7 +71,33 @@ Created 2-3 charts to evaluate potential relationships between the home variable
 
 ```{python}
 #| label: Q1
-#
+# Chart 1
+h_subset = dwellings_ml.filter(['livearea', 'finbsmnt', 
+    'basement', 'yearbuilt', 'nocars', 'numbdrm', 'numbaths', 
+    'stories', 'yrbuilt', 'before1980']).sample(500)
+
+sns.pairplot(h_subset, hue = 'before1980')
+
+
+```
+
+
+
+```{python}
+# Chart 2
+# numbaths - yrbuilt
+# clean to get 1980 - 2000
+# change colors for before 1980 and after 1980
+
+(alt.Chart(h_subset)
+.mark_point() 
+.encode(
+    x=alt.X('numbdrm'),
+    y=alt.Y('yrbuilt', axis=alt.Axis(format=".0f"), scale=alt.Scale(domain=[1880, 2200])),
+    color = 'before1980:N'
+)
+)
+
 
 
 ```
