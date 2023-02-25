@@ -63,14 +63,10 @@ denver_neighborhood = pd.read_csv("https://raw.githubusercontent.com/byuidatasci
 
 # [Charting Relationship - Homes Before 1980]
 
-Created 2-3 charts to evaluate potential relationships between the home variables and before1980. 
-
-- Explain what you learn from the charts that could help a machine learning algorithm - 
-
-
+Below, I created 2 charts to evaluate potential relationships between the home variables and before1980. This will help determine from the different features, to predict a home that was built before or after 1980.  
 
 ```{python}
-#| label: Q1
+
 # Chart 1
 h_subset = dwellings_ml.filter(['livearea', 'finbsmnt', 
     'basement', 'yearbuilt', 'nocars', 'numbdrm', 'numbaths', 
@@ -83,11 +79,15 @@ sns.pairplot(h_subset, hue = 'before1980')
 
 
 
+### [Number Bedrooms - Year Built]
+
+Based on these observations, a machine learning algorithm could use the number of bedrooms and the year built as features to predict the price of a house. The algorithm could also use the binary feature indicating whether the house was built before or after 1980 as a categorical feature to improve its prediction accuracy.
+
 ```{python}
-# Chart 2
-# numbaths - yrbuilt
-# clean to get 1980 - 2000
-# change colors for before 1980 and after 1980
+#| label: Q1
+# Chart 1
+
+# The given code generates a scatter plot using the Altair library in Python. The plot shows the relationship between the number of bedrooms and the year built for a subset of housing data. The x-axis represents the number of bedrooms, and the y-axis represents the year built. The points on the plot represent individual houses, and the color of each point indicates whether the house was built before or after 1980.
 
 (alt.Chart(h_subset)
 .mark_point() 
@@ -102,7 +102,26 @@ sns.pairplot(h_subset, hue = 'before1980')
 
 ```
 
+### [Number Baths - Year Built]
 
+Based on these observations, a machine learning algorithm could use the number of baths and the year built as features to predict the house was built before or after 1980 as a categorical feature to improve its prediction accuracy.
+
+
+```{python}
+# Chart 2
+# The plot shows the relationship between the number of baths and the year built for a subset of housing data. The x-axis represents the number of baths, and the y-axis represents the year built. The points on the plot represent individual houses, and the color of each point indicates whether the house was built before or after 1980.
+
+(alt.Chart(h_subset)
+.mark_point() 
+.encode(
+    x=alt.X('numbaths'),
+    y=alt.Y('yrbuilt', axis=alt.Axis(format=".0f"), scale=alt.Scale(domain=[1880, 2200])),
+    color = 'before1980:N'
+)
+)
+
+
+```
 
 
 
