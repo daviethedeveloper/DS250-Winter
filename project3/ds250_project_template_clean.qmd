@@ -55,17 +55,15 @@ In this report, I gathered all the neccesary tables to show the players who atte
 #| code-summary: Read and format data
 # Include and execute your code here
 
-# From the Salaries table (s) and joins with the CollegePlaying table (c) based on playerID from both tables being equal. The join is made to bring in the schoolID from the CollegePlaying table and filter only those records where the schoolID equals "idbyuid". The final result is ordered in descending order by salary and limited to 5 records.
+# From the Salaries table (s) and joins with the CollegePlaying table (c) based on playerID from both tables being equal. The join is made to bring in the schoolID from the CollegePlaying table and filter only those records where the schoolID equals "idbyuid". The final result is ordered in descending order by salary and limited to 5 records. Used the DISTINCT to the player ID on the Salaries table to only get back 1 time seen. 
 
 pd.read_sql_query("""
 
-SELECT c.playerID, c.schoolID, s.salary, s.yearID, s.teamID
+SELECT DISTINCT(c.playerID), c.schoolID, s.salary, s.yearID, s.teamID
 FROM Salaries s
-    JOIN CollegePlaying c ON s.playerID = c.playerID
+    LEFT JOIN CollegePlaying c ON s.playerID = c.playerID
 WHERE c.schoolId = "idbyuid"
 ORDER BY s.salary DESC, s.yearID
-
-
 
 """, con)
 

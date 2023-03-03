@@ -2670,19 +2670,17 @@ vertical-align: -.125em;
 <summary>Read and format data</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Include and execute your code here</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># From the Salaries table (s) and joins with the CollegePlaying table (c) based on playerID from both tables being equal. The join is made to bring in the schoolID from the CollegePlaying table and filter only those records where the schoolID equals &quot;idbyuid&quot;. The final result is ordered in descending order by salary and limited to 5 records.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># From the Salaries table (s) and joins with the CollegePlaying table (c) based on playerID from both tables being equal. The join is made to bring in the schoolID from the CollegePlaying table and filter only those records where the schoolID equals &quot;idbyuid&quot;. The final result is ordered in descending order by salary and limited to 5 records. Used the DISTINCT to the player ID on the Salaries table to only get back 1 time seen. </span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>pd.read_sql_query(<span class="st">&quot;&quot;&quot;</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT c.playerID, c.schoolID, s.salary, s.yearID, s.teamID</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT DISTINCT(c.playerID), c.schoolID, s.salary, s.yearID, s.teamID</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">FROM Salaries s</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">    JOIN CollegePlaying c ON s.playerID = c.playerID</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">    LEFT JOIN CollegePlaying c ON s.playerID = c.playerID</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE c.schoolId = &quot;idbyuid&quot;</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY s.salary DESC, s.yearID</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>, con)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>, con)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="gq1" class="cell-output cell-output-display" data-execution_count="3">
 
@@ -2712,228 +2710,108 @@ vertical-align: -.125em;
       <th>1</th>
       <td>lindsma01</td>
       <td>idbyuid</td>
-      <td>4000000.0</td>
-      <td>2014</td>
-      <td>CHA</td>
+      <td>3600000.0</td>
+      <td>2012</td>
+      <td>BAL</td>
     </tr>
     <tr>
       <th>2</th>
       <td>lindsma01</td>
       <td>idbyuid</td>
-      <td>3600000.0</td>
-      <td>2012</td>
-      <td>BAL</td>
+      <td>2800000.0</td>
+      <td>2011</td>
+      <td>COL</td>
     </tr>
     <tr>
       <th>3</th>
       <td>lindsma01</td>
       <td>idbyuid</td>
-      <td>3600000.0</td>
-      <td>2012</td>
-      <td>BAL</td>
+      <td>2300000.0</td>
+      <td>2013</td>
+      <td>CHA</td>
     </tr>
     <tr>
       <th>4</th>
       <td>lindsma01</td>
       <td>idbyuid</td>
-      <td>2800000.0</td>
-      <td>2011</td>
-      <td>COL</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>lindsma01</td>
-      <td>idbyuid</td>
-      <td>2800000.0</td>
-      <td>2011</td>
-      <td>COL</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>lindsma01</td>
-      <td>idbyuid</td>
-      <td>2300000.0</td>
-      <td>2013</td>
-      <td>CHA</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>lindsma01</td>
-      <td>idbyuid</td>
-      <td>2300000.0</td>
-      <td>2013</td>
-      <td>CHA</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>lindsma01</td>
-      <td>idbyuid</td>
       <td>1625000.0</td>
       <td>2010</td>
       <td>HOU</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>stephga01</td>
+      <td>idbyuid</td>
+      <td>1025000.0</td>
+      <td>2001</td>
+      <td>SLN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>stephga01</td>
+      <td>idbyuid</td>
+      <td>900000.0</td>
+      <td>2002</td>
+      <td>SLN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>stephga01</td>
+      <td>idbyuid</td>
+      <td>800000.0</td>
+      <td>2003</td>
+      <td>SLN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>stephga01</td>
+      <td>idbyuid</td>
+      <td>550000.0</td>
+      <td>2000</td>
+      <td>SLN</td>
     </tr>
     <tr>
       <th>9</th>
       <td>lindsma01</td>
       <td>idbyuid</td>
-      <td>1625000.0</td>
-      <td>2010</td>
-      <td>HOU</td>
+      <td>410000.0</td>
+      <td>2009</td>
+      <td>FLO</td>
     </tr>
     <tr>
       <th>10</th>
-      <td>stephga01</td>
+      <td>lindsma01</td>
       <td>idbyuid</td>
-      <td>1025000.0</td>
-      <td>2001</td>
-      <td>SLN</td>
+      <td>395000.0</td>
+      <td>2008</td>
+      <td>FLO</td>
     </tr>
     <tr>
       <th>11</th>
-      <td>stephga01</td>
+      <td>lindsma01</td>
       <td>idbyuid</td>
-      <td>1025000.0</td>
-      <td>2001</td>
-      <td>SLN</td>
+      <td>380000.0</td>
+      <td>2007</td>
+      <td>FLO</td>
     </tr>
     <tr>
       <th>12</th>
       <td>stephga01</td>
       <td>idbyuid</td>
-      <td>900000.0</td>
-      <td>2002</td>
+      <td>215000.0</td>
+      <td>1999</td>
       <td>SLN</td>
     </tr>
     <tr>
       <th>13</th>
       <td>stephga01</td>
       <td>idbyuid</td>
-      <td>900000.0</td>
-      <td>2002</td>
-      <td>SLN</td>
+      <td>185000.0</td>
+      <td>1998</td>
+      <td>PHI</td>
     </tr>
     <tr>
       <th>14</th>
-      <td>stephga01</td>
-      <td>idbyuid</td>
-      <td>800000.0</td>
-      <td>2003</td>
-      <td>SLN</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>stephga01</td>
-      <td>idbyuid</td>
-      <td>800000.0</td>
-      <td>2003</td>
-      <td>SLN</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>stephga01</td>
-      <td>idbyuid</td>
-      <td>550000.0</td>
-      <td>2000</td>
-      <td>SLN</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>stephga01</td>
-      <td>idbyuid</td>
-      <td>550000.0</td>
-      <td>2000</td>
-      <td>SLN</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>lindsma01</td>
-      <td>idbyuid</td>
-      <td>410000.0</td>
-      <td>2009</td>
-      <td>FLO</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>lindsma01</td>
-      <td>idbyuid</td>
-      <td>410000.0</td>
-      <td>2009</td>
-      <td>FLO</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>lindsma01</td>
-      <td>idbyuid</td>
-      <td>395000.0</td>
-      <td>2008</td>
-      <td>FLO</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>lindsma01</td>
-      <td>idbyuid</td>
-      <td>395000.0</td>
-      <td>2008</td>
-      <td>FLO</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>lindsma01</td>
-      <td>idbyuid</td>
-      <td>380000.0</td>
-      <td>2007</td>
-      <td>FLO</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>lindsma01</td>
-      <td>idbyuid</td>
-      <td>380000.0</td>
-      <td>2007</td>
-      <td>FLO</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>stephga01</td>
-      <td>idbyuid</td>
-      <td>215000.0</td>
-      <td>1999</td>
-      <td>SLN</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>stephga01</td>
-      <td>idbyuid</td>
-      <td>215000.0</td>
-      <td>1999</td>
-      <td>SLN</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>stephga01</td>
-      <td>idbyuid</td>
-      <td>185000.0</td>
-      <td>1998</td>
-      <td>PHI</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>stephga01</td>
-      <td>idbyuid</td>
-      <td>185000.0</td>
-      <td>1998</td>
-      <td>PHI</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>stephga01</td>
-      <td>idbyuid</td>
-      <td>150000.0</td>
-      <td>1997</td>
-      <td>PHI</td>
-    </tr>
-    <tr>
-      <th>29</th>
       <td>stephga01</td>
       <td>idbyuid</td>
       <td>150000.0</td>
@@ -3199,13 +3077,13 @@ vertical-align: -.125em;
 </details>
 <div id="gq3" class="cell-output cell-output-display" data-execution_count="7">
 
-<div id="altair-viz-d8d4601e64654b7c96bfbdf7e205f33e"></div>
+<div id="altair-viz-58e80560565f4d7c9a8fc9685b6d1cb0"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-d8d4601e64654b7c96bfbdf7e205f33e") {
-      outputDiv = document.getElementById("altair-viz-d8d4601e64654b7c96bfbdf7e205f33e");
+    if (outputDiv.id !== "altair-viz-58e80560565f4d7c9a8fc9685b6d1cb0") {
+      outputDiv = document.getElementById("altair-viz-58e80560565f4d7c9a8fc9685b6d1cb0");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
