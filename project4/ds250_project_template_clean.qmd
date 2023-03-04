@@ -71,7 +71,7 @@ h_subset = dwellings_ml.filter(['livearea', 'finbsmnt',
     'basement', 'yearbuilt', 'nocars', 'numbdrm', 'numbaths', 
     'stories', 'yrbuilt', 'before1980']).sample(500)
 
-sns.pairplot(h_subset, hue = 'before1980')
+# sns.pairplot(h_subset, hue = 'before1980')
 
 
 ```
@@ -91,8 +91,9 @@ Based on these observations, a machine learning algorithm could use the number o
 (alt.Chart(h_subset)
 .mark_point() 
 .encode(
-    x=alt.X('numbdrm'),
-    y=alt.Y('yrbuilt', axis=alt.Axis(format=".0f"), scale=alt.Scale(domain=[1880, 2200])),
+    x=alt.X('yrbuilt', axis=alt.Axis(format=".0f"), scale=alt.Scale(domain=[1880, 2200])),
+    y=alt.Y('numbdrm'),
+    
     color = 'before1980:N'
 )
 )
@@ -113,8 +114,8 @@ Based on these observations, a machine learning algorithm could use the number o
 (alt.Chart(h_subset)
 .mark_point() 
 .encode(
-    x=alt.X('numbaths'),
-    y=alt.Y('yrbuilt', axis=alt.Axis(format=".0f"), scale=alt.Scale(domain=[1880, 2200])),
+    x=alt.X('yrbuilt', axis=alt.Axis(format=".0f"), scale=alt.Scale(domain=[1880, 2200])),
+    y=alt.Y('numbaths'),
     color = 'before1980:N'
 )
 )
@@ -165,7 +166,9 @@ y_predicted_DT = classifier_DT.predict(x_test)
 
 ## [Plotting Feature Importance]
 
-In my classification model, the features I excluded were the yearbuilt, parcel and before1980. This decision is based off the results that can increase my model to predict 100%. So, to preven my model reaching 100% accuracy, I excluded these features. As seen in my printed features with their importance weight, the highest is live area with 0.07. From this result, I can conclude living area will be helpful feature to know if homes were built before 1980.
+In my classification model, the features I excluded were the yearbuilt, parcel and before1980. This decision is based off the results that can increase my model to predict 100%. So, to preven my model reaching 100% accuracy, I excluded these features.
+
+As seen in my printed features, the top five features are printed. The feature with the most importance is 'arcstyle_ONE-store' with  .30. From this result, I can conclude 'arcstyle_ONE-STORY' will be helpful feature to know if homes were built before 1980.
 
 
 ```{python}
@@ -173,7 +176,9 @@ In my classification model, the features I excluded were the yearbuilt, parcel a
 
 classifier_DT.feature_importances_
 feature_df = pd.DataFrame({'features':x.columns, 'importance':classifier_DT.feature_importances_})
-print(feature_df)
+
+# order by importance - limit to only 5
+print(feature_df.sort_values('importance', ascending=False).head())
 
 ```
 
