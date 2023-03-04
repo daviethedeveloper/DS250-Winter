@@ -131,6 +131,7 @@ Based on these observations, a machine learning algorithm could use the number o
 ## [Classification Model - Homes before 1980]
 
 The following is a classification model for labeled houses built "before 1980" or "during or after 1980". The accuracy scored here on this model is:  91% . The model choice presented is a decision tree due to helpful evalutation of options. The decision tree helped with possible outcomes of choosing which options it might be. The parameters used in this test were filterd out with the "yrbuilt", "parcel", "before1980" - model will truly predict if a home is built before 1980. 
+
 ```{python}
 #| label: Q2
 
@@ -157,8 +158,6 @@ classifier_DT.fit(x_train, y_train)
 # Test the decision tree (make predictions)
 y_predicted_DT = classifier_DT.predict(x_test)
 
-# Evaluate the decision tree
-print("Accuracy:", metrics.accuracy_score(y_test, y_predicted_DT))
 
 ```
 
@@ -166,9 +165,8 @@ print("Accuracy:", metrics.accuracy_score(y_test, y_predicted_DT))
 
 ## [Plotting Feature Importance]
 
-Justify your classification model by discussing the most important features selected by your model. This discussion should include a chart and a description of the features.
+In my classification model, the features I excluded were the yearbuilt, parcel and before1980. This decision is based off the results that can increase my model to predict 100%. So, to preven my model reaching 100% accuracy, I excluded these features. As seen in my printed features with their importance weight, the highest is live area with 0.07. From this result, I can conclude living area will be helpful feature to know if homes were built before 1980.
 
-_type your results and analysis here_
 
 ```{python}
 #| label: Q3
@@ -180,12 +178,16 @@ print(feature_df)
 ```
 
 
-## GRAND QUESTION 4
+## [Quality of Classification model]
 
-__COPY PASTE GRAND QUESTION FROM THE PROJECT HERE__
+Balanced Accuracy is the average of sensitivity and specificity score. Since our data might be out balanced, the balanced accuracy will take into account the true positives balanced with true negatives. This way my classification model can be balanced out. The accuracy metric will take will take into account the true positives with the true negatives by the total of all the values in the classfication mode. 
 
-_type your results and analysis here_
 
 ```{python}
 #| label: Q4
+
+# Evaluates my classification model with Accruracy and Balanced Accurarcy
+
+print("Accuracy:", metrics.accuracy_score(y_test, y_predicted_DT))
+print("Balanced Accuracy:", metrics.balanced_accuracy_score(y_test, y_predicted_DT))
 ```
