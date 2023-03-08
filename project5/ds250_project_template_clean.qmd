@@ -44,7 +44,7 @@ Importing Star Wars Data
 #| label: project data
 #| code-summary: Read and format project data
 # Include and execute your code here
-dat = pd.read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/star-wars-survey/StarWars.csv")
+dat = pd.read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/star-wars-survey/StarWars.csv",encoding= 'unicode_escape', skiprows=2, header=None)
 ```
 
 
@@ -56,17 +56,34 @@ For this project, use the Star Wars survey data to figure out if they can predic
 
 
 
-## GRAND QUESTION 1
+## [New Table Names]
 
 Shorten the column names and clean them up for easier use with pandas. Provide a table or list that exemplifies how you fixed the names.
 
-_type your results and analysis here_
+- skipped the first two rows, and set the header to None value, the default it now 0 to 37. 
+- len(dat.columns) to see the length of the number or columns
+- info(verbose=True) to list all the names of the columns
+- iloc[:,6] check the information of all column 6
 
 ```{python}
 #| label: GQ1
 #| code-summary: Read and format data
 # Include and execute your code here
 
+
+
+dat = (dat.rename(columns={
+  0: "response_id", 1: "seen_six", 2: "fan_starwars", 3: "seen_movie_one", 
+  4: "seen_movie_two", 5: "seen_movie_three", 6: "seen_movie_four", 7: "seen_movie_five", 
+  8: "seen_movie_six", 9: "rank_movie_one", 10: "rank_movie_two", 11: "rank_movie_three", 
+  12: "rank_movie_four", 13: "rank_movie_five", 14: "rank_movie_six", 15: "rate_han", 
+  16: "rate_luke", 17: "rate_lei", 18: "rate_anakin", 19: "rate_obi", 
+  20: "rate_palpatine", 21: "rate_vadar", 22: "rate_lando", 23: "rate_boba", 
+  24: "rate_c-3P0", 25: "rate_r2", 26: "rate_jar", 27: "rate_padme", 
+  28: "rate_yoda", 29: "character_shot", 30: "familiar_eu", 31: "fan_eu", 
+  32: "fan_startrek", 33: "gender", 34: "age", 35: "h_income", 
+  36: "education", 37: "location"}
+  ))
 
 ```
 
