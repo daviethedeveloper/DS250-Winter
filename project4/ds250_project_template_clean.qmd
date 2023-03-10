@@ -174,7 +174,7 @@ As seen in my printed features, the top five features are printed. The feature w
 ```{python}
 #| label: Q3
 
-classifier_DT.feature_importances_
+
 feature_df = pd.DataFrame({'features':x.columns, 'importance':classifier_DT.feature_importances_})
 
 # order by importance - limit to only 5
@@ -195,4 +195,12 @@ Balanced Accuracy is the average of sensitivity and specificity score. Since our
 
 print("Accuracy:", metrics.accuracy_score(y_test, y_predicted_DT))
 print("Balanced Accuracy:", metrics.balanced_accuracy_score(y_test, y_predicted_DT))
+
+
+fi_df = feature_df.sort_values('importance', ascending=False).head()
+alt.Chart(fi_df).mark_bar().encode(
+    y='features',
+    x='importance',
+)
+
 ```

@@ -1,0 +1,9 @@
+import streamlit.components.v1 as components
+
+# Define the iFrame HTML code
+iframe_code = """
+<iframe src="https://example.com"></iframe>
+"""
+
+# Display the iFrame using the `html` method
+components.html(iframe_code, height=600)

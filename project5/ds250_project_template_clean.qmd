@@ -29,6 +29,7 @@ format:
 import pandas as pd
 import altair as alt
 import numpy as np
+import string as str
 
 from IPython.display import Markdown
 from IPython.display import display
@@ -73,15 +74,24 @@ Shorten the column names and clean them up for easier use with pandas. Provide a
 
 
 dat = (dat.rename(columns={
-  0: "response_id", 1: "seen_six", 2: "fan_starwars", 3: "seen_movie_one", 
-  4: "seen_movie_two", 5: "seen_movie_three", 6: "seen_movie_four", 7: "seen_movie_five", 
-  8: "seen_movie_six", 9: "rank_movie_one", 10: "rank_movie_two", 11: "rank_movie_three", 
-  12: "rank_movie_four", 13: "rank_movie_five", 14: "rank_movie_six", 15: "rate_han", 
-  16: "rate_luke", 17: "rate_lei", 18: "rate_anakin", 19: "rate_obi", 
-  20: "rate_palpatine", 21: "rate_vadar", 22: "rate_lando", 23: "rate_boba", 
-  24: "rate_c-3P0", 25: "rate_r2", 26: "rate_jar", 27: "rate_padme", 
-  28: "rate_yoda", 29: "character_shot", 30: "familiar_eu", 31: "fan_eu", 
-  32: "fan_startrek", 33: "gender", 34: "age", 35: "h_income", 
+  0: "response_id", 1: "seen_six", 
+  2: "fan_starwars", 3: "seen_movie_one", 
+  4: "seen_movie_two", 5: "seen_movie_three", 
+  6: "seen_movie_four", 7: "seen_movie_five", 
+  8: "seen_movie_six", 9: "rank_movie_one", 
+  10: "rank_movie_two", 11: "rank_movie_three", 
+  12: "rank_movie_four", 13: "rank_movie_five", 
+  14: "rank_movie_six", 15: "rate_han", 
+  16: "rate_luke", 17: "rate_lei", 
+  18: "rate_anakin", 19: "rate_obi", 
+  20: "rate_palpatine", 21: "rate_vadar", 
+  22: "rate_lando", 23: "rate_boba", 
+  24: "rate_c-3P0", 25: "rate_r2",
+  26: "rate_jar", 27: "rate_padme", 
+  28: "rate_yoda", 29: "character_shot", 
+  30: "familiar_eu", 31: "fan_eu", 
+  32: "fan_startrek", 33: "gender", 
+  34: "age", 35: "h_income", 
   36: "education", 37: "location"}
   ))
 
@@ -89,25 +99,22 @@ dat = (dat.rename(columns={
 
 
 
-## GRAND QUESTION 2
+## [Clean Formated Data]
 
 Clean and format the data so that it can be used in a machine learning model. As you format the data, you should complete each item listed below. In your final report provide example(s) of the reformatted data with a short description of the changes made.
 
 _type your results and analysis here_
 
-```{python}
-#| label: GQ2
-#| code-summary: Read and format data
-# Include and execute your code here
 
+# Seen at least one film
 
-```
+Filter the dataset to respondents that have seen at least one film
 
-
-
-Filter the dataset to respondents that have seen at least one film.
+Short Summary: 
 ```{python}
 #| label: GQ2 chart
+
+dat_one = dat.query("seen_six != 'No'")
 
 ```
 
@@ -117,6 +124,9 @@ Create a new column that converts the age ranges to a single number. Drop the ag
 ```{python}
 #| label: GQ2 table
 
+dat_one['age'] = (dat_one['age']).str.replace('18-', '', regex=True).str.replace('30-', '', regex=True).str.replace('45-', '', regex=True).str.replace('>60|> 60', '60', regex=True)
+
+
 ```
 
 
@@ -125,6 +135,17 @@ Create a new column that converts the education groupings to a single number. Dr
 ```{python}
 #| label: GQ2 table
 
+edu_dict = {
+  
+  'High school degree' : 0,
+  'Some college or Associate degree' : 1,
+  'Bachelor degree': 2,
+  'Graduate degree' : 3
+
+}
+
+dat_one['education'] = dat_one['education'].replace(edu_dict)
+
 ```
 
 
@@ -132,6 +153,18 @@ Create a new column that converts the education groupings to a single number. Dr
 Create a new column that converts the income ranges to a single number. Drop the income range categorical column.
 ```{python}
 #| label: GQ2 table
+
+income_dict = {
+  
+  '$0 - $24,999' : '$24,999',
+  '$25,000 - $49,999': '$49,999',
+  '$50,000 - $99,999' : '$99,999',
+  '$100,000 - $149,999' : '$149,999'
+  
+
+}
+
+dat_one['h_income'] = dat_one['h_income'].replace(income_dict)
 
 ```
 
