@@ -29,7 +29,6 @@ format:
 import pandas as pd
 import altair as alt
 import numpy as np
-import string as str
 
 from IPython.display import Markdown
 from IPython.display import display
@@ -135,16 +134,22 @@ Create a new column that converts the education groupings to a single number. Dr
 ```{python}
 #| label: GQ2 table
 
+dat_one['education'] = dat_one['education'].fillna(2)
+
 edu_dict = {
   
-  'High school degree' : 0,
-  'Some college or Associate degree' : 1,
-  'Bachelor degree': 2,
-  'Graduate degree' : 3
+
+  'Less than high school degree' : 0,
+  'High school degree' : 1,
+  'Some college or Associate degree' : 2,
+  'Bachelor degree': 3,
+  'Graduate degree' : 4
 
 }
 
 dat_one['education'] = dat_one['education'].replace(edu_dict)
+
+dat_one["education"] = dat_one["education"].astype("int")
 
 ```
 
@@ -153,19 +158,23 @@ dat_one['education'] = dat_one['education'].replace(edu_dict)
 Create a new column that converts the income ranges to a single number. Drop the income range categorical column.
 ```{python}
 #| label: GQ2 table
+dat_one = dat_one.dropna(subset=['h_income'])
 
 income_dict = {
   
-  '$0 - $24,999' : '$24,999',
-  '$25,000 - $49,999': '$49,999',
-  '$50,000 - $99,999' : '$99,999',
-  '$100,000 - $149,999' : '$149,999'
+  '$0 - $24,999' : 24999,
+  '$25,000 - $49,999': 49999,
+  '$50,000 - $99,999' : 99999,
+  '$100,000 - $149,999' : 149999,
+  '$150,000+' : 150000
   
 
 }
 
 dat_one['h_income'] = dat_one['h_income'].replace(income_dict)
 
+
+dat_one["h_income"] = dat_one["h_income"].astype("int")
 ```
 
 
@@ -173,6 +182,15 @@ dat_one['h_income'] = dat_one['h_income'].replace(income_dict)
 Create your target (also known as “y” or “label”) column based on the new income range column.
 ```{python}
 #| label: GQ2 table
+
+
+
+dat_one = dat_one.assign(h_income = np.where(
+  dat_one["h_income"] < 50000, 
+  0, 
+  1))
+
+
 
 ```
 
@@ -182,6 +200,8 @@ Create your target (also known as “y” or “label”) column based on the ne
 One-hot encode all remaining categorical columns.
 ```{python}
 #| label: GQ2 table
+
+pd.get_dummies(dat_one[['seen_six', 'fan_starwars', 'seen_movie_one', 'seen_movie_two', 'seen_movie_three', 'seen_movie_four', 'seen_movie_five', 'seen_movie_six']])
 
 ```
 
